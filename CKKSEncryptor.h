@@ -7,14 +7,15 @@
 class CKKSEncryptor {
 public:
     int N;
-    int L;
-    long long Q;
-    long long P;
-    long long q0;
-    vector<long long> p;
+    // int L;
+    mpz_class Q;
+    int Q_bits;
+    // long long P;
+    // long long q0;
+    // vector<long long> p;
 
-    vector<long long> secret_key;
-    pair<vector<long long>, vector<long long>> public_key;
+    vector<mpz_class> secret_key;
+    pair<vector<mpz_class>, vector<mpz_class>> public_key;
 
     CKKSEncryptor() = delete;
     CKKSEncryptor(int);
@@ -23,11 +24,11 @@ public:
     void generate_modulus();
 
     /* key generation */
-    vector<long long> generate_secret_key();
-    pair<vector<long long>, vector<long long>> generate_public_key();
+    vector<mpz_class> generate_secret_key();
+    // pair<vector<mpz_class>, vector<mpz_class>> generate_public_key();
 
-    Ciphertext encrypt(vector<long long> mu);
-    vector<long long> decrypt(Ciphertext c);
+    // Ciphertext encrypt(vector<long long> mu);
+    // vector<long long> decrypt(Ciphertext c);
 };
 
 #endif

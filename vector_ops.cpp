@@ -4,6 +4,7 @@
 
 using namespace std;
 
+/*
 vector<long long> polynomial_neg(vector<long long> a, long long mod) {
     for (int i = 0; i < (int)a.size(); i++) {
         a[i] = (mod - a[i]) % mod;
@@ -45,6 +46,7 @@ vector<long long> polynomial_times(vector<long long> a, vector<long long> b, lon
 
     return a;
 }
+*/
 
 vector<complex<double>> vector_times(vector<complex<double>> a, double b) {
     for (int i = 0; i < (int)a.size(); i++) {

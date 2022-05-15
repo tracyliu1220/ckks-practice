@@ -13,6 +13,7 @@ int main() {
     CKKSEncoder encoder(M, 1LL << 14);
     CKKSEncryptor encryptor(N);
 
+    /*
     vector<complex<double>> message = {1, 2, 3, 4};
     vector<complex<double>> message2 = {2, 2, 1, 1};
 
@@ -44,6 +45,7 @@ int main() {
         cout << decoded[i] << ' ';
     }
     cout << endl;
+    */
 
     /*
     CKKSEncryptor encryptor(N);

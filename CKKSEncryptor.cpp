@@ -7,33 +7,38 @@
 CKKSEncryptor::CKKSEncryptor(int N) : N(N) {
     generate_modulus();
     secret_key = generate_secret_key();
-    public_key = generate_public_key();
+    // public_key = generate_public_key();
 }
 
 void CKKSEncryptor::generate_modulus() {
-    L = 2;
-    q0 = 65521; // close to 1 << 16
-    p = {16381, 16369}; // close to 1 << 14
-    P = 65521;
-    Q = q0;
-    for (int i = 0; i < (int)p.size(); i++) {
-        Q *= p[i];
+    // L = 2;
+    // q0 = 65521; // close to 1 << 16
+    // p = {16381, 16369}; // close to 1 << 14
+    // P = 65521;
+    // Q = q0;
+    // for (int i = 0; i < (int)p.size(); i++) {
+    //     Q *= p[i];
+    // }
+    Q = 1L << 60;
+    Q_bits = 0;
+    mpz_class test_Q = 1;
+    while (test_Q < Q) {
+        test_Q *= 2;
+        Q_bits++;
     }
-    Q = 1LL << 60;
 }
 
-vector<long long> CKKSEncryptor::generate_secret_key() {
-    default_random_engine generator;
-    generator.seed(clock());
-    uniform_int_distribution<long long> distribution(0, Q - 1);
+vector<mpz_class> CKKSEncryptor::generate_secret_key() {
+    gmp_randclass r(gmp_randinit_default);
 
-    vector<long long> ret;
+    vector<mpz_class> ret;
     for (int i = 0; i < N; i++) {
-        ret.push_back(distribution(generator));
+        ret.push_back(r.get_z_bits(Q_bits) % Q);
     }
     return ret;
 }
 
+/*
 pair<vector<long long>, vector<long long>> CKKSEncryptor::generate_public_key() {
     default_random_engine generator;
     generator.seed(clock());
@@ -55,7 +60,9 @@ pair<vector<long long>, vector<long long>> CKKSEncryptor::generate_public_key() 
 
     return {ret1, a};
 }
+*/
 
+/*
 Ciphertext CKKSEncryptor::encrypt(vector<long long> mu) {
     for (int i = 0; i < (int)mu.size(); i++) {
         if (mu[i] < 0) mu[i] += Q * (mu[i] / Q + 1);
@@ -77,3 +84,4 @@ vector<long long> CKKSEncryptor::decrypt(Ciphertext c) {
     }
     return mu;
 }
+*/
