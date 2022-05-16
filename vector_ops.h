@@ -4,8 +4,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<long long> polynomial_neg(vector<long long> a, long long mod);
-vector<long long> polynomial_add(vector<long long> a, vector<long long> b, long long mod);
+vector<mpz_class> polynomial_neg(vector<mpz_class> a, mpz_class mod);
+vector<mpz_class> polynomial_add(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod);
 vector<mpz_class> polynomial_times(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod);
 
 

@@ -25,10 +25,10 @@ public:
 
     /* key generation */
     vector<mpz_class> generate_secret_key();
-    // pair<vector<mpz_class>, vector<mpz_class>> generate_public_key();
+    pair<vector<mpz_class>, vector<mpz_class>> generate_public_key();
 
-    // Ciphertext encrypt(vector<long long> mu);
-    // vector<long long> decrypt(Ciphertext c);
+    Ciphertext encrypt(vector<long long> mu);
+    vector<long long> decrypt(Ciphertext c);
 };
 
 #endif

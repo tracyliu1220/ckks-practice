@@ -8,13 +8,13 @@ using namespace std;
 
 class Ciphertext {
 public:
-    long long Q;
+    mpz_class Q;
     // long long q0;
     // vector<long long> p;
     vector<mpz_class> c0;
     vector<mpz_class> c1;
 
-    // Ciphertext operator+(const Ciphertext & rhs);
+    Ciphertext operator+(const Ciphertext & rhs);
     // Ciphertext operator*(const vector<mpz_class> & rhs);
 };
 

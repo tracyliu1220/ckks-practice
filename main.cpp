@@ -13,12 +13,11 @@ int main() {
     CKKSEncoder encoder(M, 1LL << 14);
     CKKSEncryptor encryptor(N);
 
-    /*
     vector<complex<double>> message = {1, 2, 3, 4};
-    vector<complex<double>> message2 = {2, 2, 1, 1};
+    // vector<complex<double>> message2 = {2, 2, 1, 1};
 
     vector<long long> encoded = encoder.encode(message);
-    vector<long long> encoded2 = encoder.encode(message2);
+    // vector<long long> encoded2 = encoder.encode(message2);
 
     for (int i = 0; i < (int)encoded.size(); i++) {
         cout << encoded[i] << ' ';
@@ -26,13 +25,15 @@ int main() {
     cout << endl;
 
     Ciphertext encrypted = encryptor.encrypt(encoded);
-    Ciphertext encrypted2 = encryptor.encrypt(encoded2);
+    // Ciphertext encrypted2 = encryptor.encrypt(encoded2);
 
+    /*
     for (int i = 0; i < (int)encrypted.c1.size(); i++) {
         cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
     }
+    */
 
-    encrypted = encrypted + encrypted2;
+    // encrypted = encrypted + encrypted2;
 
     for (int i = 0; i < (int)encrypted.c1.size(); i++) {
         cout << encrypted.c1[i] << endl;
@@ -45,7 +46,6 @@ int main() {
         cout << decoded[i] << ' ';
     }
     cout << endl;
-    */
 
     /*
     CKKSEncryptor encryptor(N);
@@ -67,6 +67,7 @@ int main() {
     cout << endl;
     */
 
+    /*
     vector<mpz_class> a1 = {1, 0, 2, 3};
     vector<mpz_class> a2 = {2, 1, 4, 0};
     a1 = polynomial_times(a1, a2, 5);
@@ -74,4 +75,5 @@ int main() {
         cout << a1[i] << ' ';
     }
     cout << endl;
+    */
 }

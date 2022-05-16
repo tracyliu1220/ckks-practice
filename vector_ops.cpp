@@ -5,21 +5,19 @@
 
 using namespace std;
 
-/*
-vector<long long> polynomial_neg(vector<long long> a, long long mod) {
+vector<mpz_class> polynomial_neg(vector<mpz_class> a, mpz_class mod) {
     for (int i = 0; i < (int)a.size(); i++) {
         a[i] = (mod - a[i]) % mod;
     }
     return a;
 }
 
-vector<long long> polynomial_add(vector<long long> a, vector<long long> b, long long mod) {
+vector<mpz_class> polynomial_add(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod) {
     for (int i = 0; i < (int)a.size(); i++) {
         a[i] = (a[i] + b[i]) % mod;
     }
     return a;
 }
-*/
 
 vector<mpz_class> polynomial_times(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod) {
     int n = a.size();

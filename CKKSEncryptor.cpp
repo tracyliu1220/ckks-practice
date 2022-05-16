@@ -7,7 +7,7 @@
 CKKSEncryptor::CKKSEncryptor(int N) : N(N) {
     generate_modulus();
     secret_key = generate_secret_key();
-    // public_key = generate_public_key();
+    public_key = generate_public_key();
 }
 
 void CKKSEncryptor::generate_modulus() {
@@ -38,8 +38,7 @@ vector<mpz_class> CKKSEncryptor::generate_secret_key() {
     return ret;
 }
 
-/*
-pair<vector<long long>, vector<long long>> CKKSEncryptor::generate_public_key() {
+pair<vector<mpz_class>, vector<mpz_class>> CKKSEncryptor::generate_public_key() {
     gmp_randclass r(gmp_randinit_default);
 
     vector<mpz_class> a;
@@ -54,28 +53,31 @@ pair<vector<long long>, vector<long long>> CKKSEncryptor::generate_public_key() 
 
     return {ret1, a};
 }
-*/
 
-/*
 Ciphertext CKKSEncryptor::encrypt(vector<long long> mu) {
+    vector<mpz_class> _mu(mu.size());
     for (int i = 0; i < (int)mu.size(); i++) {
-        if (mu[i] < 0) mu[i] += Q * (mu[i] / Q + 1);
-        mu[i] %= Q;
+        _mu[i] = (long int)mu[i];
+        if (_mu[i] < 0) _mu[i] += Q * (_mu[i] / Q + 1);
+        _mu[i] %= Q;
     }
     Ciphertext ret;
     ret.Q = Q;
-    ret.q0 = q0;
-    ret.p = p;
-    ret.c0 = polynomial_add(mu, public_key.first, Q);
+    // ret.q0 = q0;
+    // ret.p = p;
+    ret.c0 = polynomial_add(_mu, public_key.first, Q);
     ret.c1 = public_key.second;
     return ret;
 }
 
 vector<long long> CKKSEncryptor::decrypt(Ciphertext c) {
-    vector<long long> mu = polynomial_add(c.c0, polynomial_times(c.c1, secret_key, Q), Q);
+    vector<mpz_class> mu = polynomial_add(c.c0, polynomial_times(c.c1, secret_key, Q), Q);
     for (int i = 0; i < (int)mu.size(); i++) {
       if (mu[i] > Q / 2) mu[i] = mu[i] - Q;
     }
-    return mu;
+    vector<long long> ret;
+    for (int i = 0; i < (int)mu.size(); i++) {
+        ret.push_back(mu[i].get_si());
+    }
+    return ret;
 }
-*/
