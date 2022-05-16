@@ -15,6 +15,10 @@ public:
         x = _x;
         y = _y;
     }
+    void set_prec(int n) {
+        x.set_prec(n);
+        y.set_prec(n);
+    }
     Complex operator+(const Complex& c) const { return Complex(x + c.x, y + c.y); }
     Complex operator-(const Complex& c) const { return Complex(x - c.x, y - c.y); }
     Complex operator*(const Complex& c) const { return Complex(x*c.x - y*c.y, x*c.y + y*c.x); }

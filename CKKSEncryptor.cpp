@@ -19,7 +19,10 @@ void CKKSEncryptor::generate_modulus() {
     // for (int i = 0; i < (int)p.size(); i++) {
     //     Q *= p[i];
     // }
-    Q = 1L << 60;
+    Q = 1;
+    for (int i = 0; i < 16; i++) {
+        Q *= 2;
+    }
     Q_bits = 0;
     mpz_class test_Q = 1;
     while (test_Q < Q) {
@@ -56,9 +59,10 @@ pair<vector<mpz_class>, vector<mpz_class>> CKKSEncryptor::generate_public_key() 
 
 Ciphertext CKKSEncryptor::encrypt(vector<long long> mu) {
     vector<mpz_class> _mu(mu.size());
+
     for (int i = 0; i < (int)mu.size(); i++) {
         _mu[i] = (long int)mu[i];
-        if (_mu[i] < 0) _mu[i] += Q * (_mu[i] / Q + 1);
+        if (_mu[i] < 0) _mu[i] += Q * ((-_mu[i]) / Q + 1);
         _mu[i] %= Q;
     }
     Ciphertext ret;
@@ -72,6 +76,7 @@ Ciphertext CKKSEncryptor::encrypt(vector<long long> mu) {
 
 vector<long long> CKKSEncryptor::decrypt(Ciphertext c) {
     vector<mpz_class> mu = polynomial_add(c.c0, polynomial_times(c.c1, secret_key, Q), Q);
+
     for (int i = 0; i < (int)mu.size(); i++) {
       if (mu[i] > Q / 2) mu[i] = mu[i] - Q;
     }

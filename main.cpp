@@ -10,22 +10,52 @@ int main() {
     int M = 16;
     int N = M / 2;
 
-    CKKSEncoder encoder(M, 1LL << 14);
+    CKKSEncoder encoder(M, 100);
     CKKSEncryptor encryptor(N);
 
     vector<complex<double>> message = {1, 2, 3, 4};
-    // vector<complex<double>> message2 = {2, 2, 1, 1};
+    vector<complex<double>> message2 = {1, 1, 1, 1};
+    vector<complex<double>> message3 = {2, 3, 4, 5};
 
     vector<long long> encoded = encoder.encode(message);
-    // vector<long long> encoded2 = encoder.encode(message2);
+    vector<long long> encoded2 = encoder.encode(message2);
+    vector<long long> encoded3 = encoder.encode(message3);
 
     for (int i = 0; i < (int)encoded.size(); i++) {
         cout << encoded[i] << ' ';
     }
     cout << endl;
+    for (int i = 0; i < (int)encoded.size(); i++) {
+        cout << encoded2[i] << ' ';
+    }
+    cout << endl;
+    for (int i = 0; i < (int)encoded.size(); i++) {
+        cout << encoded3[i] << ' ';
+    }
+    cout << endl;
+
+    for (int i = 0; i < (int)encoded.size(); i++) {
+        encoded[i] += 100;
+        encoded2[i] += 100;
+        encoded3[i] += 100;
+    }
 
     Ciphertext encrypted = encryptor.encrypt(encoded);
-    // Ciphertext encrypted2 = encryptor.encrypt(encoded2);
+    Ciphertext encrypted2 = encryptor.encrypt(encoded2);
+    Ciphertext encrypted3 = encryptor.encrypt(encoded3);
+
+    for (int i = 0; i < (int)encoded.size(); i++) {
+        cout << encoded[i] << ' ';
+    }
+    cout << endl;
+    for (int i = 0; i < (int)encoded.size(); i++) {
+        cout << encoded2[i] << ' ';
+    }
+    cout << endl;
+    for (int i = 0; i < (int)encoded.size(); i++) {
+        cout << encoded3[i] << ' ';
+    }
+    cout << endl;
 
     /*
     for (int i = 0; i < (int)encrypted.c1.size(); i++) {
@@ -33,15 +63,27 @@ int main() {
     }
     */
 
-    // encrypted = encrypted + encrypted2;
+    // for (int i = 0; i < (int)encrypted.c1.size(); i++) {
+    //     cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
+    // }
 
-    for (int i = 0; i < (int)encrypted.c1.size(); i++) {
-        cout << encrypted.c1[i] << endl;
-    }
+    encrypted = encrypted + encrypted;
+
+
 
     vector<long long> decrypted = encryptor.decrypt(encrypted);
 
+    for (int i = 0; i < (int)decrypted.size(); i++) {
+        decrypted[i] -= 200; // TODO
+    }
+    cout << "decrypted:" << endl;
+    for (int i = 0; i < (int)decrypted.size(); i++) {
+        cout << decrypted[i] << ' ';
+    }
+    cout << endl;
+
     vector<complex<double>> decoded = encoder.decode(decrypted);
+    cout << "decoded:" << endl;
     for (int i = 0; i < (int)decoded.size(); i++) {
         cout << decoded[i] << ' ';
     }
