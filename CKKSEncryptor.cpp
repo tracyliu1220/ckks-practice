@@ -40,22 +40,16 @@ vector<mpz_class> CKKSEncryptor::generate_secret_key() {
 
 /*
 pair<vector<long long>, vector<long long>> CKKSEncryptor::generate_public_key() {
-    default_random_engine generator;
-    generator.seed(clock());
-    uniform_int_distribution<long long> distribution(0, Q - 1);
+    gmp_randclass r(gmp_randinit_default);
 
-    vector<long long> a;
+    vector<mpz_class> a;
     for (int i = 0; i < N; i++) {
-        a.push_back(distribution(generator));
-    }
-
-    vector<long long> e;
-    for (int i = 0; i < N; i++) {
-        e.push_back(rand() % 2);
+        a.push_back(r.get_z_bits(Q_bits) % Q);
     }
 
     // TODO: add e
-    vector<long long> ret1 = polynomial_times(a, secret_key, Q);
+
+    vector<mpz_class> ret1 = polynomial_times(a, secret_key, Q);
     ret1 = polynomial_neg(ret1, Q);
 
     return {ret1, a};

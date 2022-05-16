@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
-
+#include <gmp.h>
+#include <gmpxx.h>
 #include "utils.h"
 
 using namespace std;
@@ -18,35 +19,38 @@ vector<long long> polynomial_add(vector<long long> a, vector<long long> b, long 
     }
     return a;
 }
+*/
 
-vector<long long> polynomial_times(vector<long long> a, vector<long long> b, long long mod) {
+vector<mpz_class> polynomial_times(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod) {
     int n = a.size();
     a.resize(2 * n);
     b.resize(2 * n);
     fill(a.begin() + n, a.end(), 0);
     fill(b.begin() + n, b.end(), 0);
 
-    vector<complex<double>> _a = FFT(a, 1);
-    vector<complex<double>> _b = FFT(b, 1);
+    vector<Complex> _a = FFT(a, 1);
+    vector<Complex> _b = FFT(b, 1);
 
     for (int i = 0; i < (int)_a.size(); i++) {
         _a[i] = _a[i] * _b[i];
     }
     _a = FFT(_a, -1);
 
-    a = complex_to_long(_a);
+    // complex mpf to mpz (round)
+    for (int i = 0; i < (int)_a.size(); i++) {
+        a[i] = floor((_a[i].x * 10 + 5) / 10);
+    }
 
     for (int i = n; i < 2 * n; i++) {
-        long long x = a[i % n] - a[i];
+        mpz_class x = a[i % n] - a[i];
         if (x < 0)
-            x += mod * ((-x - mod + 1) / mod);
+            x += mod * ((-x) / mod + 1);
         a[i % n] = x % mod;
     }
     a.resize(n);
 
     return a;
 }
-*/
 
 vector<complex<double>> vector_times(vector<complex<double>> a, double b) {
     for (int i = 0; i < (int)a.size(); i++) {

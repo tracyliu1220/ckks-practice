@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 // #include <Eigen/Dense>
+#include <gmp.h>
+#include <gmpxx.h>
 #include "utils.h"
 using namespace std;
 // using namespace Eigen;
@@ -71,10 +73,49 @@ vector<complex<double>> linear_system_solve(const vector<vector<complex<double>>
 }
 */
 
+/*
 vector<complex<double>> FFT(vector<long long> c, int T) {
     vector<complex<double>> complex_c = long_to_complex(c);
     complex_c = FFT(complex_c, T);
     return complex_c;
+}
+*/
+
+vector<Complex> FFT(vector<mpz_class> c, int T) {
+    vector<Complex> _c(c.size());
+    for (int i = 0; i < c.size(); i++) {
+        _c[i].x = c[i];
+        _c[i].y = 0.0;
+    }
+    _c = FFT(_c, T);
+    return _c;
+}
+
+vector<Complex> FFT(vector<Complex> c, int T) {
+    int n = c.size();
+    for (int i = 1, j = 0; i < n; i++) {
+        for (int k = (n >> 1); k > (j ^= k); k >>= 1)
+            ;
+        if (i < j)
+            swap(c[i], c[j]);
+    }
+    for (int m = 2; m <= n; m <<= 1) {
+        // C wm(cos(2 * PI * T / m), sin(2 * PI * T / m));
+        Complex wm(cos(2 * M_PI * T / m), sin(2 * M_PI * T / m));
+        for (int k = 0; k < n; k += m) {
+            // C w(1.0, 0.0);
+            Complex w(1.0, 0.0);
+            for (int j = 0; j < (m >> 1); j++, w = w * wm) {
+                Complex u = c[k + j], t = w * c[k + j + (m >> 1)];
+                c[k + j] = u + t;
+                c[k + j + (m >> 1)] = u - t;
+            }
+        }
+    }
+    if (!~T)
+        for (int i = 0; i < n; i++)
+            c[i].x /= n, c[i].y /= n;
+    return c;
 }
 
 vector<complex<double>> FFT(vector<complex<double>> c, int T) {

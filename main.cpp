@@ -66,4 +66,12 @@ int main() {
     }
     cout << endl;
     */
+
+    vector<mpz_class> a1 = {1, 0, 2, 3};
+    vector<mpz_class> a2 = {2, 1, 4, 0};
+    a1 = polynomial_times(a1, a2, 5);
+    for (int i = 0; i < (int)a1.size(); i++) {
+        cout << a1[i] << ' ';
+    }
+    cout << endl;
 }

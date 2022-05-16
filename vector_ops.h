@@ -6,7 +6,7 @@ using namespace std;
 
 vector<long long> polynomial_neg(vector<long long> a, long long mod);
 vector<long long> polynomial_add(vector<long long> a, vector<long long> b, long long mod);
-vector<long long> polynomial_times(vector<long long> a, vector<long long> b, long long mod);
+vector<mpz_class> polynomial_times(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod);
 
 
 vector<complex<double>> vector_times(vector<complex<double>> a, double b);

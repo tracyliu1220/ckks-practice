@@ -2,11 +2,29 @@
 #define UTILS_H
 
 #include <bits/stdc++.h>
+#include <gmp.h>
+#include <gmpxx.h>
 using namespace std;
+
+class Complex {
+public:
+    mpf_class x, y;
+    Complex() {
+    }
+    Complex(mpf_class _x, mpf_class _y) {
+        x = _x;
+        y = _y;
+    }
+    Complex operator+(const Complex& c) const { return Complex(x + c.x, y + c.y); }
+    Complex operator-(const Complex& c) const { return Complex(x - c.x, y - c.y); }
+    Complex operator*(const Complex& c) const { return Complex(x*c.x - y*c.y, x*c.y + y*c.x); }
+};
 
 vector<complex<double>> long_to_complex(vector<long long> v);
 vector<long long> complex_to_long(vector<complex<double>> v);
 vector<complex<double>> random_rounding(vector<complex<double>> v);
+vector<Complex> FFT(vector<mpz_class> c, int T);
+vector<Complex> FFT(vector<Complex> c, int T);
 vector<complex<double>> FFT(vector<long long> c, int T);
 vector<complex<double>> FFT(vector<complex<double>>, int);
 // vector<complex<double>> linear_system_solve(const vector<vector<complex<double>>> & A, const vector<complex<double>> & b);
