@@ -34,11 +34,11 @@ int main() {
     }
     cout << endl;
 
-    for (int i = 0; i < (int)encoded.size(); i++) {
-        encoded[i] += 100;
-        encoded2[i] += 100;
-        encoded3[i] += 100;
-    }
+    // for (int i = 0; i < (int)encoded.size(); i++) {
+    //     encoded[i] += 100;
+    //     encoded2[i] += 100;
+    //     encoded3[i] += 100;
+    // }
 
     Ciphertext encrypted = encryptor.encrypt(encoded);
     Ciphertext encrypted2 = encryptor.encrypt(encoded2);
@@ -67,15 +67,15 @@ int main() {
     //     cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
     // }
 
-    encrypted = encrypted + encrypted;
+    encrypted = encrypted + encrypted2;
 
 
 
     vector<long long> decrypted = encryptor.decrypt(encrypted);
 
-    for (int i = 0; i < (int)decrypted.size(); i++) {
-        decrypted[i] -= 200; // TODO
-    }
+    // for (int i = 0; i < (int)decrypted.size(); i++) {
+    //     decrypted[i] -= 200; // TODO
+    // }
     cout << "decrypted:" << endl;
     for (int i = 0; i < (int)decrypted.size(); i++) {
         cout << decrypted[i] << ' ';
