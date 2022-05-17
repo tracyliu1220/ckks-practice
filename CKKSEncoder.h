@@ -20,9 +20,9 @@ public:
 
 
     /* vandermonde */
-    vector<vector<complex<double>>> vandermonde();
-    vector<vector<complex<double>>> create_sigma_R_basis();
-    vector<complex<double>> calculate_sigma_R_L2();
+    // vector<vector<complex<double>>> vandermonde();
+    // vector<vector<complex<double>>> create_sigma_R_basis();
+    // vector<complex<double>> calculate_sigma_R_L2();
 
     /* sigma */
     vector<complex<double>> sigma_inverse(const vector<complex<double>> &b);

@@ -11,11 +11,12 @@ const complex<double> _i = {0.0, 1.0};
 CKKSEncoder::CKKSEncoder(int M, double scale) : M(M), scale_factor(scale) {
     N = M / 2;
     xi = pow(_e, 2.0 * _i * M_PI / (double)M);
-    sigma_R_basis = create_sigma_R_basis();
-    sigma_R_basis_L2 = calculate_sigma_R_L2();
+    // sigma_R_basis = create_sigma_R_basis();
+    // sigma_R_basis_L2 = calculate_sigma_R_L2();
 }
 
 /* vandermonde */
+/*
 vector<vector<complex<double>>> CKKSEncoder::vandermonde() {
     vector<vector<complex<double>>> matrix;
 
@@ -32,7 +33,9 @@ vector<vector<complex<double>>> CKKSEncoder::vandermonde() {
 
     return matrix;
 }
+*/
 
+/*
 vector<vector<complex<double>>> CKKSEncoder::create_sigma_R_basis() {
     vector<vector<complex<double>>> matrix = vandermonde();
     // get matrix.T
@@ -43,7 +46,9 @@ vector<vector<complex<double>>> CKKSEncoder::create_sigma_R_basis() {
     }
     return matrix;
 }
+*/
 
+/*
 vector<complex<double>> CKKSEncoder::calculate_sigma_R_L2() {
     vector<complex<double>> ret;
     for (int i = 0; i < N; i++) {
@@ -51,6 +56,7 @@ vector<complex<double>> CKKSEncoder::calculate_sigma_R_L2() {
     }
     return ret;
 }
+*/
 
 /* sigma */
 vector<complex<double>>
@@ -114,14 +120,27 @@ vector<complex<double>> CKKSEncoder::pi_inverse(vector<complex<double>> z) {
 /* project on sigma R */
 vector<complex<double>>
 CKKSEncoder::project_on_beta(vector<complex<double>> z) {
-    // TODO: complexity O(n^2)
+    vector<complex<double>> _z(z.size() * 2);
+    for (int i = 0; i < (int)z.size(); i++) {
+        _z[i * 2 + 1] = z[i];
+    }
+
+    _z = FFT(_z, 1);
+    _z.resize(z.size());
+
+    _z = vector_times(_z, 1.0 / N);
+
+
+    /*
     vector<complex<double>> ret(N);
     for (int i = 0; i < N; i++) {
         complex<double> zi = hermitian_product(z, sigma_R_basis[i]);
         zi /= sigma_R_basis_L2[i];
         ret[i] = zi;
     }
-    return ret;
+    */
+
+    return _z;
 }
 
 vector<complex<double>>
