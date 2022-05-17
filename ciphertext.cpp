@@ -8,9 +8,13 @@ Ciphertext Ciphertext::operator+(const Ciphertext & rhs) {
     return ret;
 }
 
-Ciphertext Ciphertext::operator*(const vector<mpz_class> & rhs) {
+Ciphertext Ciphertext::operator*(const vector<long long> & rhs) {
+    vector<mpz_class> _rhs(rhs.size());
+    for (int i = 0; i < (int)rhs.size(); i++) {
+        _rhs[i] = (long int)rhs[i];
+    }
     Ciphertext ret = *this;
-    ret.c0 = polynomial_times(rhs, c0, Q);
-    ret.c1 = polynomial_times(rhs, c1, Q);
+    ret.c0 = polynomial_times(_rhs, c0, Q);
+    ret.c1 = polynomial_times(_rhs, c1, Q);
     return ret;
 }

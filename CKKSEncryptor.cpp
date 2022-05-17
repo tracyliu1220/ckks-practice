@@ -20,7 +20,7 @@ void CKKSEncryptor::generate_modulus() {
     //     Q *= p[i];
     // }
     Q = 1;
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 20; i++) {
         Q *= 2;
     }
     Q_bits = 0;

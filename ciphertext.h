@@ -15,7 +15,7 @@ public:
     vector<mpz_class> c1;
 
     Ciphertext operator+(const Ciphertext & rhs);
-    Ciphertext operator*(const vector<mpz_class> & rhs);
+    Ciphertext operator*(const vector<long long> & rhs);
 };
 
 #endif
