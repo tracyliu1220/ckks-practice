@@ -1,7 +1,7 @@
 CC=g++
 EIGEN=eigen-3.4.0
 
-OBJECTS=CKKSEncoder.o CKKSEncryptor.o ciphertext.o utils.o vector_ops.o
+OBJECTS=CKKSEncoder.o CKKSEncryptor.o ciphertext.o utils.o vector_ops.o bignum_math.o
 LIBRARIES=-lgmp -lgmpxx
 DEBUGS=-fsanitize=undefined -Wall
 
@@ -13,7 +13,10 @@ ckks: main.cpp $(OBJECTS)
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(LIBRARIES) $(DEBUGS)
 
-.PHONY: clean
+.PHONY: test clean
+
+test: ckks
+	./ckks
 
 clean:
 	rm -f *.o ckks

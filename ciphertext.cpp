@@ -14,7 +14,7 @@ Ciphertext Ciphertext::operator*(const vector<long long> & rhs) {
         _rhs[i] = (long int)rhs[i];
     }
     Ciphertext ret = *this;
-    ret.c0 = polynomial_times(_rhs, c0, Q);
-    ret.c1 = polynomial_times(_rhs, c1, Q);
+    ret.c0 = polynomial_times(c0, _rhs, Q);
+    ret.c1 = polynomial_times(c1, _rhs, Q);
     return ret;
 }

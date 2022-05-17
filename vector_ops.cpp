@@ -28,7 +28,6 @@ vector<mpz_class> polynomial_times(vector<mpz_class> a, vector<mpz_class> b, mpz
 
     vector<Complex> _a = FFT(a, 1);
     vector<Complex> _b = FFT(b, 1);
-
     for (int i = 0; i < (int)_a.size(); i++) {
         _a[i] = _a[i] * _b[i];
     }

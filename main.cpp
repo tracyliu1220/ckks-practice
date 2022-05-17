@@ -10,10 +10,10 @@ int main() {
     int M = 16;
     int N = M / 2;
 
-    CKKSEncoder encoder(M, 100);
+    CKKSEncoder encoder(M, 100000);
     CKKSEncryptor encryptor(N);
 
-    vector<complex<double>> message = {1, 2, 3, 4};
+    vector<complex<double>> message = {1, 2.5, 3, 4};
     vector<complex<double>> message2 = {1, 1, 1, 1};
     vector<complex<double>> message3 = {2, 3, 4, 5};
 

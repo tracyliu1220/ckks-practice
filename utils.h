@@ -11,10 +11,7 @@ public:
     mpf_class x, y;
     Complex() {
     }
-    Complex(mpf_class _x, mpf_class _y) {
-        x = _x;
-        y = _y;
-    }
+    Complex(mpf_class _x, mpf_class _y) : x(_x), y(_y) {};
     void set_prec(int n) {
         x.set_prec(n);
         y.set_prec(n);

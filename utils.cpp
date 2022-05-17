@@ -3,6 +3,7 @@
 #include <gmp.h>
 #include <gmpxx.h>
 #include "utils.h"
+#include "bignum_math.h"
 using namespace std;
 // using namespace Eigen;
 
@@ -84,8 +85,8 @@ vector<complex<double>> FFT(vector<long long> c, int T) {
 vector<Complex> FFT(vector<mpz_class> c, int T) {
     vector<Complex> _c(c.size());
     for (int i = 0; i < (int)c.size(); i++) {
-        _c[i].x = c[i];
-        _c[i].y = 0.0;
+        _c[i].x = mpf_class(c[i], 500);
+        _c[i].y = mpf_class(0.0, 500);
         // _c[i].set_prec((_c[i].x.get_prec() + 20) * c.size());
         _c[i].set_prec(500);
     }
@@ -103,14 +104,18 @@ vector<Complex> FFT(vector<Complex> c, int T) {
     }
     for (int m = 2; m <= n; m <<= 1) {
         // C wm(cos(2 * PI * T / m), sin(2 * PI * T / m));
-        Complex wm(cos(2 * M_PI * T / m), sin(2 * M_PI * T / m));
+        mpf_class theta = 2 * bignum_PI * T / m;
+        Complex wm(bignum_cos(theta), bignum_sin(theta));
+        // Complex wm(cos(2 * M_PI * T / m), sin(2 * M_PI * T / m));
+
         wm.set_prec(c[0].x.get_prec());
+
         for (int k = 0; k < n; k += m) {
-            // C w(1.0, 0.0);
             Complex w(1.0, 0.0);
             w.set_prec(c[0].x.get_prec());
             for (int j = 0; j < (m >> 1); j++, w = w * wm) {
-                Complex u = c[k + j], t = w * c[k + j + (m >> 1)];
+                Complex u = c[k + j];
+                Complex t = w * c[k + j + (m >> 1)];
                 c[k + j] = u + t;
                 c[k + j + (m >> 1)] = u - t;
             }
