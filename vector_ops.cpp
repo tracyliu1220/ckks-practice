@@ -20,14 +20,20 @@ vector<mpz_class> polynomial_add(vector<mpz_class> a, vector<mpz_class> b, mpz_c
 }
 
 vector<mpz_class> polynomial_times(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod) {
+    int mod_bits = 1;
+    mpz_class mod_test = 1;
+    while (mod_test < mod) {
+        mod_test *= 2;
+        mod_bits += 1;
+    }
     int n = a.size();
     a.resize(2 * n);
     b.resize(2 * n);
     fill(a.begin() + n, a.end(), 0);
     fill(b.begin() + n, b.end(), 0);
 
-    vector<Complex> _a = FFT(a, 1);
-    vector<Complex> _b = FFT(b, 1);
+    vector<Complex> _a = FFT(a, 1, mod_bits + 64);
+    vector<Complex> _b = FFT(b, 1, mod_bits + 64);
     for (int i = 0; i < (int)_a.size(); i++) {
         _a[i] = _a[i] * _b[i];
     }

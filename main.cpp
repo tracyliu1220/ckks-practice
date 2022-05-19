@@ -9,9 +9,10 @@ using namespace std;
 int main() {
     int M = 16;
     int N = M / 2;
+    int scale = 100000;
 
-    CKKSEncoder encoder(M, 1000);
-    CKKSEncryptor encryptor(N, 1000000, {1000, 1000});
+    CKKSEncoder encoder(M, scale);
+    CKKSEncryptor encryptor(N, 1L << 30, {1L << 10, 1L << 10});
 
     vector<complex<double>> message = {1, 2.5, 3, 4};
     vector<complex<double>> message2 = {1, 1, 1, 1};
@@ -71,7 +72,7 @@ int main() {
     vector<complex<double>> decoded = encoder.decode(decrypted);
     cout << "decoded:" << endl;
     for (int i = 0; i < (int)decoded.size(); i++) {
-        cout << decoded[i] << ' ';
+        cout << decoded[i] / (double)scale << ' ';
     }
     cout << endl;
 

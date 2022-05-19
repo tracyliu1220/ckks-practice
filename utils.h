@@ -24,7 +24,7 @@ public:
 vector<complex<double>> long_to_complex(vector<long long> v);
 vector<long long> complex_to_long(vector<complex<double>> v);
 vector<complex<double>> random_rounding(vector<complex<double>> v);
-vector<Complex> FFT(vector<mpz_class> c, int T);
+vector<Complex> FFT(vector<mpz_class> c, int T, int precision);
 vector<Complex> FFT(vector<Complex> c, int T);
 vector<complex<double>> FFT(vector<long long> c, int T);
 vector<complex<double>> FFT(vector<complex<double>>, int);

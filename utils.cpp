@@ -82,13 +82,13 @@ vector<complex<double>> FFT(vector<long long> c, int T) {
 }
 */
 
-vector<Complex> FFT(vector<mpz_class> c, int T) {
+vector<Complex> FFT(vector<mpz_class> c, int T, int prec) {
     vector<Complex> _c(c.size());
     for (int i = 0; i < (int)c.size(); i++) {
-        _c[i].x = mpf_class(c[i], 500);
-        _c[i].y = mpf_class(0.0, 500);
+        _c[i].x = mpf_class(c[i], prec);
+        _c[i].y = mpf_class(0.0, prec);
         // _c[i].set_prec((_c[i].x.get_prec() + 20) * c.size());
-        _c[i].set_prec(500);
+        // _c[i].set_prec(500);
     }
     _c = FFT(_c, T);
     return _c;
