@@ -55,8 +55,8 @@ int main() {
     //     cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
     // }
 
-    encrypted = encrypted * encoded;
-    // encrypted = encrypted + encrypted;
+    // encrypted = encrypted * encoded;
+    encrypted = encrypted + encrypted;
 
     vector<long long> decrypted = encryptor.decrypt(encrypted);
 
@@ -72,7 +72,7 @@ int main() {
     vector<complex<double>> decoded = encoder.decode(decrypted);
     cout << "decoded:" << endl;
     for (int i = 0; i < (int)decoded.size(); i++) {
-        cout << decoded[i] / (double)scale << ' ';
+        cout << decoded[i] << ' '; // / (double)scale << ' ';
     }
     cout << endl;
 

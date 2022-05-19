@@ -83,8 +83,8 @@ Ciphertext CKKSEncryptor::encrypt(vector<long long> mu) {
     }
     Ciphertext ret;
     ret.Q = Q;
-    // ret.q0 = q0;
-    // ret.p = p;
+    ret.q0 = q0;
+    ret.p = p;
     ret.c0 = polynomial_add(_mu, public_key.first, Q);
     ret.c1 = public_key.second;
     return ret;

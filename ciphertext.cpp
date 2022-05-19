@@ -2,9 +2,12 @@
 #include "vector_ops.h"
 
 Ciphertext Ciphertext::operator+(const Ciphertext & rhs) {
-    Ciphertext ret = rhs;
-    ret.c0 = polynomial_add(c0, rhs.c0, Q);
-    ret.c1 = polynomial_add(c1, rhs.c1, Q);
+    Ciphertext ret;
+    if (Q < rhs.Q) ret = *this;
+    else ret = rhs;
+    mpz_class cur_Q = ret.Q;
+    ret.c0 = polynomial_add(c0, rhs.c0, cur_Q);
+    ret.c1 = polynomial_add(c1, rhs.c1, cur_Q);
     return ret;
 }
 
