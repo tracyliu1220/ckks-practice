@@ -4,12 +4,27 @@
 #include "CKKSEncryptor.h"
 #include "ciphertext.h"
 
-CKKSEncryptor::CKKSEncryptor(int N) : N(N) {
-    generate_modulus();
+CKKSEncryptor::CKKSEncryptor(int N, mpz_class q0, vector<mpz_class> p)
+                : N(N), q0(q0), p(p) {
+    // generate_modulus();
+    // calculate Q
+    Q = q0;
+    for (int i = 0; i < (int)p.size(); i++) {
+        Q *= p[i];
+    }
+    // calculate Q_bits
+    Q_bits = 0;
+    mpz_class test_Q = 1;
+    while (test_Q < Q) {
+        test_Q *= 2;
+        Q_bits++;
+    }
+
     secret_key = generate_secret_key();
     public_key = generate_public_key();
 }
 
+/*
 void CKKSEncryptor::generate_modulus() {
     // L = 2;
     // q0 = 65521; // close to 1 << 16
@@ -30,6 +45,7 @@ void CKKSEncryptor::generate_modulus() {
         Q_bits++;
     }
 }
+*/
 
 vector<mpz_class> CKKSEncryptor::generate_secret_key() {
     gmp_randclass r(gmp_randinit_default);

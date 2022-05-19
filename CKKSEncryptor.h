@@ -10,18 +10,18 @@ public:
     // int L;
     mpz_class Q;
     int Q_bits;
-    // long long P;
-    // long long q0;
-    // vector<long long> p;
+    mpz_class P;
+    mpz_class q0;
+    vector<mpz_class> p;
 
     vector<mpz_class> secret_key;
     pair<vector<mpz_class>, vector<mpz_class>> public_key;
 
     CKKSEncryptor() = delete;
-    CKKSEncryptor(int);
+    CKKSEncryptor(int N, mpz_class q0, vector<mpz_class> p);
 
     /* modulus generation */
-    void generate_modulus();
+    // void generate_modulus();
 
     /* key generation */
     vector<mpz_class> generate_secret_key();
