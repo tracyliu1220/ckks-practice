@@ -155,6 +155,18 @@ vector<complex<double>> FFT(vector<complex<double>> c, int T) {
     return c;
 }
 
+mpz_class extgcd(mpz_class a, mpz_class b, mpz_class &x, mpz_class &y) {
+  if (!b) return x = 1, y = 0, a;
+  mpz_class res = extgcd(b, a % b, y, x);
+  return y -= a / b * x, res;
+}
+
+mpz_class mod_inverse(mpz_class a, mpz_class m) {
+  mpz_class x, y, d = extgcd(a, m, x, y);
+  if (d == 1) return (x + m) % m;
+  return -1;
+}
+
 /*
 int main() {
     vector<vector<complex<double>>> A;

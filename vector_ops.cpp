@@ -5,6 +5,30 @@
 
 using namespace std;
 
+vector<mpz_class> polynomial_div(vector<mpz_class> a, mpz_class div, mpz_class mod) {
+    int mod_bits = 1;
+    mpz_class mod_test = 1;
+    while (mod_test < mod) {
+        mod_test *= 2;
+        mod_bits += 1;
+    }
+    int n = a.size();
+
+    vector<Complex> _a = FFT(a, 1, mod_bits + 64);
+    mpf_class div_f(div, mod_bits + 64);
+    for (int i = 0; i < n; i++) {
+        _a[i] = _a[i] / div_f;
+    }
+    _a = FFT(_a, -1);
+
+    for (int i = 0; i < n; i++) {
+        a[i] = (_a[i].x * 10 + 5) / 10;
+        a[i] = a[i] % mod;
+    }
+
+    return a;
+}
+
 vector<mpz_class> polynomial_neg(vector<mpz_class> a, mpz_class mod) {
     for (int i = 0; i < (int)a.size(); i++) {
         a[i] = (mod - a[i]) % mod;

@@ -12,7 +12,8 @@ int main() {
     int scale = 100000;
 
     CKKSEncoder encoder(M, scale);
-    CKKSEncryptor encryptor(N, 1L << 30, {1L << 10, 1L << 10});
+    // CKKSEncryptor encryptor(N, 1073741824, {1021, 1019});
+    CKKSEncryptor encryptor(N, 1000000000, {100000, 100000});
 
     vector<complex<double>> message = {1, 2.5, 3, 4};
     vector<complex<double>> message2 = {1, 1, 1, 1};
@@ -55,8 +56,16 @@ int main() {
     //     cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
     // }
 
-    // encrypted = encrypted * encoded;
-    encrypted = encrypted + encrypted;
+    encrypted = encrypted * encoded;
+    cout << "orig Q: " << encrypted.Q << endl;
+    encrypted.rescale();
+    cout << "new Q: " << encrypted.Q << endl;
+    // encrypted = encrypted + encrypted;
+
+    // for (int i = 0; i < (int)encrypted.c0.size(); i++) {
+    //     encrypted.c0[i] *= 2;
+    //     encrypted.c1[i] *= 2;
+    // }
 
     vector<long long> decrypted = encryptor.decrypt(encrypted);
 

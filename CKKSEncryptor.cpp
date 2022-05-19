@@ -52,7 +52,7 @@ vector<mpz_class> CKKSEncryptor::generate_secret_key() {
 
     vector<mpz_class> ret;
     for (int i = 0; i < N; i++) {
-        ret.push_back(r.get_z_bits(Q_bits) % Q);
+        ret.push_back(r.get_z_bits(Q_bits) % 1000);
     }
     return ret;
 }
@@ -91,10 +91,10 @@ Ciphertext CKKSEncryptor::encrypt(vector<long long> mu) {
 }
 
 vector<long long> CKKSEncryptor::decrypt(Ciphertext c) {
-    vector<mpz_class> mu = polynomial_add(c.c0, polynomial_times(c.c1, secret_key, Q), Q);
+    vector<mpz_class> mu = polynomial_add(c.c0, polynomial_times(c.c1, secret_key, c.Q), c.Q);
 
     for (int i = 0; i < (int)mu.size(); i++) {
-      if (mu[i] > Q / 2) mu[i] = mu[i] - Q;
+      if (mu[i] > c.Q / 2) mu[i] = mu[i] - c.Q;
     }
     vector<long long> ret;
     for (int i = 0; i < (int)mu.size(); i++) {

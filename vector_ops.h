@@ -4,6 +4,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+vector<mpz_class> polynomial_div(vector<mpz_class> a, mpz_class div, mpz_class mod);
 vector<mpz_class> polynomial_neg(vector<mpz_class> a, mpz_class mod);
 vector<mpz_class> polynomial_add(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod);
 vector<mpz_class> polynomial_times(vector<mpz_class> a, vector<mpz_class> b, mpz_class mod);
