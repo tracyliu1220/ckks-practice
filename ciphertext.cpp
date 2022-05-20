@@ -12,6 +12,16 @@ Ciphertext Ciphertext::operator+(const Ciphertext & rhs) {
     return ret;
 }
 
+Ciphertext Ciphertext::operator+(const vector<long long> & rhs) {
+    vector<mpz_class> _rhs(rhs.size());
+    for (int i = 0; i < (int)rhs.size(); i++)
+        _rhs[i] = (long int)rhs[i];
+
+    Ciphertext ret = *this;
+    ret.c0 = polynomial_add(c0, _rhs, Q);
+    return ret;
+}
+
 Ciphertext Ciphertext::operator*(const vector<long long> & rhs) {
     vector<mpz_class> _rhs(rhs.size());
     for (int i = 0; i < (int)rhs.size(); i++) {

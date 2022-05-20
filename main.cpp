@@ -74,9 +74,9 @@ int main() {
     //     cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
     // }
 
-    encrypted = encrypted * encrypted;
+    encrypted = encrypted + encoded;
     // cout << "orig Q: " << encrypted.Q << endl;
-    encrypted.rescale();
+    // encrypted.rescale();
     // cout << "new Q: " << encrypted.Q << endl;
     // encrypted = encrypted + encrypted;
 
@@ -103,10 +103,10 @@ int main() {
     }
     cout << endl;
 
-    for (int i = 0; i < (int)message.size(); i++) {
-        cout << message[i] * message[i] << ' ';
-    }
-    cout << endl;
+    // for (int i = 0; i < (int)message.size(); i++) {
+    //     cout << message[i] * message[i] << ' ';
+    // }
+    // cout << endl;
 
     /*
     CKKSEncryptor encryptor(N);
