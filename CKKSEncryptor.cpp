@@ -53,7 +53,7 @@ vector<mpz_class> CKKSEncryptor::generate_secret_key() {
 
     vector<mpz_class> ret;
     for (int i = 0; i < N; i++) {
-        ret.push_back(r.get_z_bits(Q_bits) % 1000);
+        ret.push_back(r.get_z_bits(Q_bits) % 2);
     }
     return ret;
 }
@@ -67,9 +67,14 @@ pair<vector<mpz_class>, vector<mpz_class>> CKKSEncryptor::generate_public_key() 
     }
 
     // TODO: add e
+    vector<mpz_class> e;
+    for (int i = 0; i < N; i++) {
+        e.push_back(r.get_z_bits(4) % 2);
+    }
 
     vector<mpz_class> ret1 = polynomial_times(a, secret_key, Q);
     ret1 = polynomial_neg(ret1, Q);
+    ret1 = polynomial_add(ret1, e, Q);
 
     return {ret1, a};
 }
@@ -91,6 +96,10 @@ pair<vector<mpz_class>, vector<mpz_class>> CKKSEncryptor::generate_evaluation_ke
     }
 
     // TODO: add e
+    vector<mpz_class> e;
+    for (int i = 0; i < N; i++) {
+        e.push_back(r.get_z_bits(4) % 2);
+    }
 
     vector<mpz_class> ret1 = polynomial_times(a, secret_key, Q * P);
     ret1 = polynomial_neg(ret1, Q * P);
@@ -101,6 +110,7 @@ pair<vector<mpz_class>, vector<mpz_class>> CKKSEncryptor::generate_evaluation_ke
     }
 
     ret1 = polynomial_add(ret1, s_square, Q);
+    ret1 = polynomial_add(ret1, e, Q);
 
     return {ret1, a};
 }

@@ -5,6 +5,7 @@
 
 using namespace std;
 
+/*
 vector<mpz_class> polynomial_div(vector<mpz_class> a, mpz_class div, mpz_class mod) {
     int mod_bits = 1;
     mpz_class mod_test = 1;
@@ -28,6 +29,7 @@ vector<mpz_class> polynomial_div(vector<mpz_class> a, mpz_class div, mpz_class m
 
     return a;
 }
+*/
 
 vector<mpz_class> polynomial_neg(vector<mpz_class> a, mpz_class mod) {
     for (int i = 0; i < (int)a.size(); i++) {

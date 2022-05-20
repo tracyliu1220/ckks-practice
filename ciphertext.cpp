@@ -58,7 +58,6 @@ Ciphertext Ciphertext::operator*(const Ciphertext & rhs) {
 
 void Ciphertext::rescale() {
     mpz_class pl = p.back();
-    cout << "pl: " << pl << endl;
     p.pop_back();
 
     // calculate new Q
