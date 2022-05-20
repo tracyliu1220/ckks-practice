@@ -9,11 +9,11 @@ using namespace std;
 int main() {
     int M = 16;
     int N = M / 2;
-    int scale = 100000;
+    int scale = 10000;
 
     CKKSEncoder encoder(M, scale);
     // CKKSEncryptor encryptor(N, 1073741824, {1021, 1019});
-    CKKSEncryptor encryptor(N, 1000000000, {100000, 100000});
+    CKKSEncryptor encryptor(N, mpz_class(1000000000) * scale * scale, {scale, scale}, 4);
 
     vector<complex<double>> message = {1, 2.5, 3, 4};
     vector<complex<double>> message2 = {1, 1, 1, 1};
@@ -56,7 +56,7 @@ int main() {
     //     cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
     // }
 
-    encrypted = encrypted * encoded;
+    encrypted = encrypted * encrypted;
     cout << "orig Q: " << encrypted.Q << endl;
     encrypted.rescale();
     cout << "new Q: " << encrypted.Q << endl;
@@ -84,6 +84,8 @@ int main() {
         cout << decoded[i] << ' '; // / (double)scale << ' ';
     }
     cout << endl;
+
+    cout << "finish" << endl;
 
     /*
     CKKSEncryptor encryptor(N);
