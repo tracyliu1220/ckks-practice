@@ -6,135 +6,169 @@
 
 using namespace std;
 
+const int print_width = 8;
+int length;
+
+void print_message(string name, const vector<complex<double>> & message) {
+    cout << name << ":\t";
+    for (int i = 0; i < length; i++) {
+        cout << setw(print_width) << message[i].real() << ' ';
+    }
+    cout << endl;
+}
+
+void test_ciphertext_plaintext_addition(
+        vector<complex<double>> a,
+        vector<complex<double>> b,
+        CKKSEncoder encoder,
+        CKKSEncryptor encryptor) {
+    cout << "\033[38;5;123m=== ciphertext plaintext addition ===\033[0m" << endl;
+    print_message("a", a);
+    print_message("b", b);
+
+    vector<long long> encoded_a = encoder.encode(a);
+    vector<long long> encoded_b = encoder.encode(b);
+
+    Ciphertext encrypted_a = encryptor.encrypt(encoded_a);
+
+    Ciphertext encrypted_result = encrypted_a + encoded_b;
+
+    vector<long long> encoded_result = encryptor.decrypt(encrypted_result);
+    vector<complex<double>> result = encoder.decode(encoded_result);
+
+    print_message("result", result);
+    cout << "answer:\t";
+    for (int i = 0; i < length; i++) {
+        cout << setw(print_width) << a[i].real() + b[i].real() << ' ';
+    }
+    cout << endl;
+}
+
+void test_ciphertext_plaintext_multiplication(
+        vector<complex<double>> a,
+        vector<complex<double>> b,
+        CKKSEncoder encoder,
+        CKKSEncryptor encryptor) {
+    cout << "\033[38;5;123m=== ciphertext plaintext multiplication ===\033[0m" << endl;
+    print_message("a", a);
+    print_message("b", b);
+
+    vector<long long> encoded_a = encoder.encode(a);
+    vector<long long> encoded_b = encoder.encode(b);
+
+    Ciphertext encrypted_a = encryptor.encrypt(encoded_a);
+
+    Ciphertext encrypted_result = encrypted_a * encoded_b;
+    encrypted_result.rescale();
+
+    vector<long long> encoded_result = encryptor.decrypt(encrypted_result);
+    vector<complex<double>> result = encoder.decode(encoded_result);
+
+    print_message("result", result);
+    cout << "answer: ";
+    for (int i = 0; i < length; i++) {
+        cout << setw(print_width) << a[i].real() * b[i].real() << ' ';
+    }
+    cout << endl;
+}
+
+void test_ciphertext_ciphertext_addition(
+        vector<complex<double>> a,
+        vector<complex<double>> b,
+        CKKSEncoder encoder,
+        CKKSEncryptor encryptor) {
+    cout << "\033[38;5;123m=== ciphertext ciphertext addition ===\033[0m" << endl;
+    print_message("a", a);
+    print_message("b", b);
+
+    vector<long long> encoded_a = encoder.encode(a);
+    vector<long long> encoded_b = encoder.encode(b);
+
+    Ciphertext encrypted_a = encryptor.encrypt(encoded_a);
+    Ciphertext encrypted_b = encryptor.encrypt(encoded_b);
+
+    Ciphertext encrypted_result = encrypted_a + encrypted_b;
+
+    vector<long long> encoded_result = encryptor.decrypt(encrypted_result);
+    vector<complex<double>> result = encoder.decode(encoded_result);
+
+    print_message("result", result);
+    cout << "answer: ";
+    for (int i = 0; i < length; i++) {
+        cout << setw(print_width) << a[i].real() + b[i].real() << ' ';
+    }
+    cout << endl;
+}
+
+void test_ciphertext_ciphertext_multiplication(
+        vector<complex<double>> a,
+        vector<complex<double>> b,
+        CKKSEncoder encoder,
+        CKKSEncryptor encryptor) {
+    cout << "\033[38;5;123m=== ciphertext ciphertext multiplication ===\033[0m" << endl;
+    print_message("a", a);
+    print_message("b", b);
+
+    vector<long long> encoded_a = encoder.encode(a);
+    vector<long long> encoded_b = encoder.encode(b);
+
+    Ciphertext encrypted_a = encryptor.encrypt(encoded_a);
+    Ciphertext encrypted_b = encryptor.encrypt(encoded_b);
+
+    Ciphertext encrypted_result = encrypted_a * encrypted_b;
+    encrypted_result.rescale();
+
+    vector<long long> encoded_result = encryptor.decrypt(encrypted_result);
+    vector<complex<double>> result = encoder.decode(encoded_result);
+
+    print_message("result", result);
+    cout << "answer: ";
+    for (int i = 0; i < length; i++) {
+        cout << setw(print_width) << a[i].real() * b[i].real() << ' ';
+    }
+    cout << endl;
+}
+
+/*
+int M = 16;
+int N = M / 2;
+int scale = 10000000;
+
+CKKSEncoder encoder(M, scale);
+
+mpz_class q0("100000000");
+vector<mpz_class> p = {scale, scale};
+mpz_class P = 10000000000;
+
+CKKSEncryptor encryptor(N, q0, p, P);
+*/
+
 int main() {
+    length = 4;
+
     int M = 16;
     int N = M / 2;
     int scale = 10000000;
 
     CKKSEncoder encoder(M, scale);
-    // CKKSEncryptor encryptor(N, 1073741824, {1021, 1019});
-                            // N, q0,                 p_l,            P
-    mpz_class q0 = 100000000;
 
-    mpz_class Q = q0;
+    mpz_class q0("100000000");
     vector<mpz_class> p = {scale, scale};
-
-    for (int i = 0; i < (int)p.size(); i++)
-        Q = Q * p[i];
-
     mpz_class P = 10000000000;
-    cout << "parameters: " << scale << ' ' << q0 << ' ' << P << endl;
 
     CKKSEncryptor encryptor(N, q0, p, P);
 
-    cout << "encryptor constructed" << endl;
+    vector<complex<double>> message1 = {1, 2.5, 3, 4};
+    vector<complex<double>> message2 = {4, 3, 2, 1};
 
-    vector<complex<double>> message = {1, 2.5, 3, 4};
+    message1.resize(N / 2);
+    message2.resize(N / 2);
 
-    // for (int i = 0; i < N / 2; i++) {
-    //     message.push_back(2.0);
-    // }
-    vector<complex<double>> message2 = {1, 1, 1, 1};
-    vector<complex<double>> message3 = {2, 3, 4, 5};
+    fill(message1.begin() + length, message1.end(), 0);
+    fill(message2.begin() + length, message2.end(), 0);
 
-    vector<long long> encoded = encoder.encode(message);
-    // vector<long long> encoded2 = encoder.encode(message2);
-    // vector<long long> encoded3 = encoder.encode(message3);
-
-    for (int i = 0; i < (int)encoded.size(); i++) {
-        cout << encoded[i] << ' ';
-    }
-    cout << endl;
-    // for (int i = 0; i < (int)encoded.size(); i++) {
-    //     cout << encoded2[i] << ' ';
-    // }
-    // cout << endl;
-    // for (int i = 0; i < (int)encoded.size(); i++) {
-    //     cout << encoded3[i] << ' ';
-    // }
-    // cout << endl;
-
-    // for (int i = 0; i < (int)encoded.size(); i++) {
-    //     encoded[i] += 100;
-    //     encoded2[i] += 100;
-    //     encoded3[i] += 100;
-    // }
-
-    Ciphertext encrypted = encryptor.encrypt(encoded);
-    // Ciphertext encrypted2 = encryptor.encrypt(encoded2);
-    // Ciphertext encrypted3 = encryptor.encrypt(encoded3);
-
-    /*
-    for (int i = 0; i < (int)encrypted.c1.size(); i++) {
-        cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
-    }
-    */
-
-    // for (int i = 0; i < (int)encrypted.c1.size(); i++) {
-    //     cout << encrypted.c1[i] << ' ' << encrypted2.c1[i] << endl;
-    // }
-
-    encrypted = encrypted + encoded;
-    // cout << "orig Q: " << encrypted.Q << endl;
-    // encrypted.rescale();
-    // cout << "new Q: " << encrypted.Q << endl;
-    // encrypted = encrypted + encrypted;
-
-    // for (int i = 0; i < (int)encrypted.c0.size(); i++) {
-    //     encrypted.c0[i] *= 2;
-    //     encrypted.c1[i] *= 2;
-    // }
-
-    vector<long long> decrypted = encryptor.decrypt(encrypted);
-
-    // for (int i = 0; i < (int)decrypted.size(); i++) {
-    //     decrypted[i] -= 200; // TODO
-    // }
-    cout << "decrypted:" << endl;
-    for (int i = 0; i < (int)decrypted.size(); i++) {
-        cout << decrypted[i] << ' ';
-    }
-    cout << endl;
-
-    vector<complex<double>> decoded = encoder.decode(decrypted);
-    cout << "decoded:" << endl;
-    for (int i = 0; i < (int)decoded.size(); i++) {
-        cout << decoded[i] << ' '; // / (double)scale << ' ';
-    }
-    cout << endl;
-
-    // for (int i = 0; i < (int)message.size(); i++) {
-    //     cout << message[i] * message[i] << ' ';
-    // }
-    // cout << endl;
-
-    /*
-    CKKSEncryptor encryptor(N);
-
-    cout << "secret_key:" << endl;
-    for (int i = 0; i < encryptor.secret_key.size(); i++) {
-        cout << encryptor.secret_key[i] << ' ';
-    }
-    cout << endl;
-
-    cout << "public_key:" << endl;
-    for (int i = 0; i < encryptor.public_key.first.size(); i++) {
-        cout << encryptor.public_key.first[i] << ' ';
-    }
-    cout << endl;
-    for (int i = 0; i < encryptor.public_key.second.size(); i++) {
-        cout << encryptor.public_key.second[i] << ' ';
-    }
-    cout << endl;
-    */
-
-    /*
-    vector<mpz_class> a1 = {1, 0, 2, 3};
-    vector<mpz_class> a2 = {2, 1, 4, 0};
-    a1 = polynomial_times(a1, a2, 5);
-    for (int i = 0; i < (int)a1.size(); i++) {
-        cout << a1[i] << ' ';
-    }
-    cout << endl;
-    */
+    test_ciphertext_plaintext_addition(message1, message2, encoder, encryptor);
+    test_ciphertext_plaintext_multiplication(message1, message2, encoder, encryptor);
+    test_ciphertext_ciphertext_addition(message1, message2, encoder, encryptor);
+    test_ciphertext_ciphertext_multiplication(message1, message2, encoder, encryptor);
 }
