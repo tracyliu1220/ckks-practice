@@ -146,26 +146,26 @@ CKKSEncoder::project_on_beta(vector<complex<double>> z) {
 vector<complex<double>>
 CKKSEncoder::project_sigma_R(vector<complex<double>> z) {
     vector<complex<double>> coor = random_rounding(project_on_beta(z));
-    coor.resize(M);
-    fill(coor.begin() + N, coor.end(), 0);
+    // coor.resize(M);
+    // fill(coor.begin() + N, coor.end(), 0);
 
-    vector<complex<double>> projected = FFT(coor, 1);
-    for (int i = 0; i < M; i++) {
-        projected[i] = projected[2 * i + 1];
-    }
-    projected.resize(N);
-    return projected;
+    // vector<complex<double>> projected = FFT(coor, 1);
+    // for (int i = 0; i < M; i++) {
+    //     projected[i] = projected[2 * i + 1];
+    // }
+    // projected.resize(N);
+    return coor;
 }
 
 vector<long long> CKKSEncoder::encode(vector<complex<double>> z) {
     z = pi_inverse(z);
     z = vector_times(z, scale_factor);
-    vector<complex<double>> projected = project_sigma_R(z);
-    vector<complex<double>> cp = sigma_inverse(projected);
+    vector<complex<double>> coor = project_sigma_R(z);
+    // vector<complex<double>> cp = sigma_inverse(projected);
 
     vector<long long> p;
-    for (int i = 0; i < (int)cp.size(); i++) {
-        p.push_back(round(cp[i].real()));
+    for (int i = 0; i < (int)coor.size(); i++) {
+        p.push_back(round(coor[i].real()));
     }
     // project
     // sigma_inverse
